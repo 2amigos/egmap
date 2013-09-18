@@ -53,7 +53,7 @@ class EGMapApiKeyList {
 		$this->addAPIKey( 'localhost', $this->_default );
 		
 		if( $domain != null && $key != null )
-			$this->add( $domain, $key );
+			$this->addAPIKey( $domain, $key );
 	}
 	/**
 	 * 

@@ -61,7 +61,7 @@ class EGMap extends EGMapBase {
 	// picks an appropriate zoom control based on the map's size and the device on 
 	// which the map is running.
 	const ZOOMCONTROL_STYLE_DEFAULT = 'google.maps.ZoomControlStyle.DEFAULT';
-
+        
 	/**
 	 * 
 	 * Available plugins
@@ -463,6 +463,7 @@ class EGMap extends EGMapBase {
 		return $this->encode($this->options);
 	}
 
+        
 	/**
 	 * 
 	 * Registers the Javascript required for the Google map
@@ -470,6 +471,13 @@ class EGMap extends EGMapBase {
 	 * @param string $language -preferred language setting for the results
 	 * @param string $region -top level geographic domain 
 	 * @param ClientScript::CONSTANT $position -where to render the script
+         * @param string $listener Reference window DOM element used to trigger map rendering.  
+         * https://developer.mozilla.org/en-US/docs/DOM_Levels
+	 * string representation of javascript access path to the element
+         * window by default
+         * @param string $event Reference event listener attached to the specified windowElement that when triggered renders the map  
+	 * https://developer.mozilla.org/en-US/docs/DOM_Client_Object_Cross-Reference/DOM_Events
+	 * string representation of the event name
 	 * @since 2010-12-22 Antonio Ramirez (inspired by sfGMap Plugin of Fabriceb)
 	 * @since 2011-01-09 Antonio Ramirez 
 	 * 		  removed deprecated initialization procedures //$init_events[] = $this->getIconsJs();
@@ -480,7 +488,7 @@ class EGMap extends EGMapBase {
 	 * @since 2011-03-23 Antonio Ramirez
 	 *		  Added circles and rectangles support
 	 */
-	public function registerMapScript($afterInit=array(), $language = null, $region = null, $position = CClientScript::POS_LOAD)
+	public function registerMapScript($afterInit=array(), $language = null, $region = null, $position = CClientScript::POS_LOAD, $listener = 'window', $event = 'load')
 	{
 		// TODO: include support in the future
 		$params = 'sensor=false';
@@ -542,8 +550,8 @@ class EGMap extends EGMapBase {
 			}
 		}
 		$js .= '
-			  } google.maps.event.addDomListener(window, "load",' . PHP_EOL . $this->_containerId . '_init);' . PHP_EOL;
-
+			  } google.maps.event.addDomListener('.$listener.', "'.$event.'",' . PHP_EOL . $this->_containerId . '_init);' . PHP_EOL;
+                
 		Yii::app()->getClientScript()->registerScript($this->_containerId . time(), $js, CClientScript::POS_END);
 	}
 
@@ -660,11 +668,17 @@ class EGMap extends EGMapBase {
 	 * @param string $language -preferred language setting for the results
 	 * @param string $region -top level geographic domain 
 	 * @param ClientScript::CONSTANT $position -where to render the script
+         * @param string $listener Reference window DOM element used to trigger map rendering.  
+         * https://developer.mozilla.org/en-US/docs/DOM_Levels
+	 * string representation of javascript access path to the element
+         * window by default
+         * @param string $event Reference event listener attached to the specified windowElement that when triggered renders the map  
+	 * https://developer.mozilla.org/en-US/docs/DOM_Client_Object_Cross-Reference/DOM_Events
+	 * string representation of the event name
 	 */
-	public function renderMap($afterInit=array(), $language = null, $region = null, $position = CClientScript::POS_LOAD)
+	public function renderMap($afterInit=array(), $language = null, $region = null, $position = CClientScript::POS_LOAD, $listener = 'window', $event = 'load')
 	{
-
-		$this->registerMapScript($afterInit, $language, $region, $position);
+		$this->registerMapScript($afterInit, $language, $region, $position, $listener, $event);
 		if (null === $this->_appendTo)
 			echo $this->getContainer();
 	}

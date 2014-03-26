@@ -4,6 +4,7 @@
     "keywords": ["google", "maps"],
     "type": "yii-extension",
     "license": "BSD-3-Clause",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Antonio Ramirez",

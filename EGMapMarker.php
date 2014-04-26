@@ -264,8 +264,11 @@ class EGMapMarker extends EGMapBase {
 			}
 		}
 
-		$return .='var ' . $this->getJsName() . ' = new ' . $this->marker_object . '(' . EGMap::encode($this->options) . ');' . PHP_EOL;
-
+		//$return .='var ' . $this->getJsName() . ' = new ' . $this->marker_object . '(' . EGMap::encode($this->options) . ');' . PHP_EOL;
+                
+                //refering to global whenever possible
+                $return .=' ' . $this->getJsName() . ' = new ' . $this->marker_object . '(' . EGMap::encode($this->options) . ');' . PHP_EOL;
+                
 		foreach ($this->custom_properties as $attribute => $value)
 		{
 			$return .= $this->getJsName() . "." . $attribute . " = '" . $value . "';" . PHP_EOL;

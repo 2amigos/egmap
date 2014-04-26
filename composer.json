@@ -1,20 +1,20 @@
 {
-    "name": "2amigos/egmap",
+    "name": "aleoy/egmap",
     "description": "Objet-oriented PHP abstraction to the Google Maps API to ease the process of adding a Google Map on your Yii projects.",
     "keywords": ["google", "maps"],
     "type": "yii-extension",
     "license": "BSD-3-Clause",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Antonio Ramirez",
             "email": "ramirez.cobos@gmail.com",
             "homepage": "http://www.ramirezcobos.com"
-        }
-    ],
-    "repositories": [
+        },
         {
-            "type": "composer",
-            "url": "http://packages.phundament.com"
+            "name": "Vitor Silva",
+            "email": "vitor@aleoy.com",
+            "homepage": "http://www.aleoy.com"
         }
     ]
 }

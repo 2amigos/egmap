@@ -12,6 +12,9 @@
  * - Implemented EGMap support for object to js translation
  * - Modified internal properties from arrays to objects
  * - Modified all functions to work with newly adopted objects
+ *
+ * @since 2015-09-18 Alex Howes
+ * - Implemented EGMap support for scaledSize
  * 
  * A GoogleMap MarkerImage
  * @author Maxime Picaud
@@ -43,6 +46,9 @@ class EGMapMarkerImage
    
   // EGMapSize
   protected $size;
+
+  // EGMapSize
+  protected $scaledSize;
    
   // EGMapPoint 
   protected $origin;
@@ -56,11 +62,13 @@ class EGMapMarkerImage
    * @param array $size array('width' => $width,'height' => $height)
    * @param EGMapPoint $origin 
    * @param EGMapPoint $anchor
+   * @param EGMapSize $scaledSize
    * @author Maxime Picaud
    * @since 4 sept. 2009
    * @since 2011-01-21 modified by Antonio Ramirez Cobos
+   * @since 2015-09-18 modified by Alex Howes
    */
-  public function __construct( $url, EGMapSize $size=null, EGMapPoint $origin=null, EGMapPoint $anchor=null)
+  public function __construct( $url, EGMapSize $size=null, EGMapPoint $origin=null, EGMapPoint $anchor=null, EGMapSize $scaledSize=null)
   {
     $this->url = $url;
     
@@ -69,6 +77,8 @@ class EGMapMarkerImage
     if( null !== $origin)  $this->origin = $origin;
 
   	if( null !== $anchor ) $this->anchor = $anchor;
+
+    if(null !== $scaledSize) $this->scaledSize = $scaledSize;
     
   }
   
@@ -231,12 +241,63 @@ class EGMapMarkerImage
 
   /**
    * 
+   * @return EGMapSize | null
+   * @author Alex Howes
+   * @since 2015-09-18
+   */
+  public function getScaledSize()
+  {
+    return $this->scaledSize;
+  }
+  
+  /**
+   * 
+   * @return numeric string | number scaled size width
+   * @author Alex Howes
+   * @since 2015-09-18
+   */
+  public function getScaledWidth()
+  {
+    if( $this->scaledSize !== null )
+      return $this->scaledSize->getWidth;
+  }
+  
+  /**
+   * 
+   * @return numeric string | number scaled size height
+   * @author Alex Howes
+   * @since 2015-09-18
+   */
+  public function getScaledHeight()
+  {
+    if( $this->scaledSize !== null )
+      return $this->scaledSize->getHeight;
+  }
+  
+  /**
+   * 
+   * @param numeric string | number scaled size width
+   * @param numeric string | number scaled size height
+   * @author Alex Howes
+   * @since 2015-09-18
+   */
+  public function setScaledSize($width,$height)
+  {
+    if( null === $this->scaledSize )
+      $this->scaledSize = new EGMapSize();
+    $this->scaledSize->setWidth($width);
+    $this->scaledSize->setHeight($height);
+  }
+
+  /**
+   * 
    * @return string js code to create the markerImage
    * @author Maxime Picaud
    * @since 4 sept. 2009
    * @since 2011-01-22 modified by Antonio Ramirez
    * 		implemented EGMap support for object to 
    * 		js translation
+   * @since 2015-09-18 modified by Alex Howes
    */
   public function toJs()
   {
@@ -246,6 +307,7 @@ class EGMapMarkerImage
     $params[] = EGMap::encode($this->size); 
     $params[] = EGMap::encode($this->origin);
     $params[] = EGMap::encode($this->anchor);
+    $params[] = EGMap::encode($this->scaledSize);
     
     $return = 'new google.maps.MarkerImage('.implode(',',$params).")";
     

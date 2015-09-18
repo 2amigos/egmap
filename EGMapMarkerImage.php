@@ -59,7 +59,7 @@ class EGMapMarkerImage
   /**
    * @param string $js_name Javascript name of the marker
    * @param string $url url of image 
-   * @param array $size array('width' => $width,'height' => $height)
+   * @param EGMapSize $size
    * @param EGMapPoint $origin 
    * @param EGMapPoint $anchor
    * @param EGMapSize $scaledSize
@@ -74,9 +74,9 @@ class EGMapMarkerImage
     
     if(null !== $size) $this->size = $size;
     
-    if( null !== $origin)  $this->origin = $origin;
+    if(null !== $origin)  $this->origin = $origin;
 
-  	if( null !== $anchor ) $this->anchor = $anchor;
+    if(null !== $anchor ) $this->anchor = $anchor;
 
     if(null !== $scaledSize) $this->scaledSize = $scaledSize;
     
@@ -115,7 +115,7 @@ class EGMapMarkerImage
   
   /**
    * 
-   * @return numeric string |Ênumber $height
+   * @return numeric string | number size height
    * @author Maxime Picaud
    * @since 4 sept. 2009
    * @since 2011-01-22 by Antonio Ramirez
@@ -126,11 +126,10 @@ class EGMapMarkerImage
     	return $this->size->getHeight;
   }
   
-  
   /**
    * 
-   * @param numeric string | number $width
-   * @param numeric string | number $height
+   * @param numeric string | number size width
+   * @param numeric string | number size height
    * @author Antonio Ramirez
    * @since 2011-01-22
    */
@@ -141,7 +140,7 @@ class EGMapMarkerImage
     $this->size->setWidth($width);
     $this->size->setHeight($height);
   }
-  
+
   /**
    * 
    * @return EGMapPoint $anchor
